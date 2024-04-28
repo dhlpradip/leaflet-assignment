@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // LassoController.tsx
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext } from "react";
 // import "leaflet-lasso/dist/leaflet-lasso.css";
 import L, { LatLngExpression } from "leaflet";
 import "leaflet-lasso";
@@ -16,30 +16,26 @@ interface LassoControllerProps {
   map: L.Map;
 }
 
-const LassoController: React.FC<LassoControllerProps> = ({ map }) => {
-  const { lassoCoordinates, setLassoCoordinates } = useContext(
-    MapContext
-  ) as MapContextType;
-
-  const lassoRef = useRef<L.Control.Lasso | null>(null);
+const LassoController: React.FC<LassoControllerProps> = () => {
+  const { lassoCoordinates } = useContext(MapContext) as MapContextType;
 
   console.log({ lassoCoordinates });
 
-  useEffect(() => {
-    lassoRef.current = L.control.lasso({}).addTo(map);
-    map.on("lasso.finished", (event: object) => {
-      setLassoCoordinates((lassoCoordinates: string | any[]) => [
-        ...lassoCoordinates,
-        { id: lassoCoordinates.length + 1, coords: [event.latLngs] },
-      ]);
-    });
+  // useEffect(() => {
+  //   lassoRef.current = L.control.lasso({}).addTo(map);
+  //   map.on("lasso.finished", (event: object) => {
+  //     setLassoCoordinates((lassoCoordinates: string | any[]) => [
+  //       ...lassoCoordinates,
+  //       { id: lassoCoordinates.length + 1, coords: [event.latLngs] },
+  //     ]);
+  //   });
 
-    return () => {
-      if (lassoRef.current) {
-        lassoRef.current.remove();
-      }
-    };
-  }, [map, setLassoCoordinates]);
+  //   return () => {
+  //     if (lassoRef.current) {
+  //       lassoRef.current.remove();
+  //     }
+  //   };
+  // }, [map, setLassoCoordinates]);
 
   return (
     <>
